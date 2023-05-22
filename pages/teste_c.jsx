@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const UploadButton = ({ onFileUpload }) => {
   const handleFileChange = (event) => {
@@ -13,16 +13,26 @@ const UploadButton = ({ onFileUpload }) => {
   );
 };
 
-const Canvas = ({ svgContent, onElementClick }) => {
+const Canvas = ({ svgContent, setSvgRef }) => {
+  const svgRef = useRef(null);
+
+  const handleClick = () => {
+    setSvgRef(svgRef.current);
+    console.log(svgRef.current);
+  };
+
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: svgContent }}
-      onClick={onElementClick}
-    />
+    <div>
+      <svg
+        ref={svgRef}
+        onClick={handleClick}
+        dangerouslySetInnerHTML={{ __html: svgContent }}
+      />
+    </div>
   );
 };
 
-const DownloadButton = ({ svgContent }) => {
+const DownloadButton = ({ svgContent, svgRef }) => {
   const handleDownload = () => {
     const svgBlob = new Blob([svgContent], { type: "image/svg+xml" });
     const url = URL.createObjectURL(svgBlob);
@@ -42,106 +52,9 @@ const DownloadButton = ({ svgContent }) => {
   );
 };
 
-const SVGAnimator = ({ onElementClick }) => {
-  const [animation, setAnimation] = useState({
-    attributeName: "",
-    from: "",
-    to: "",
-    dur: "",
-    repeatCount: "",
-  });
-
-  const handleAttributeChange = (event) => {
-    const { name, value } = event.target;
-    setAnimation((prevAnimation) => ({
-      ...prevAnimation,
-      [name]: value,
-    }));
-  };
-
-  const createAnimateElement = () => {
-    const { attributeName, from, to, dur, repeatCount } = animation;
-    const animateElement = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "animate"
-    );
-
-    animateElement.setAttribute("attributeName", attributeName);
-    animateElement.setAttribute("from", from);
-    animateElement.setAttribute("to", to);
-    animateElement.setAttribute("dur", dur);
-    animateElement.setAttribute("repeatCount", repeatCount);
-
-    return animateElement;
-  };
-
-  const handleElementClick = (event) => {
-    const { target } = event;
-    const animateElement = createAnimateElement();
-    target.appendChild(animateElement);
-    onElementClick();
-  };
-
-  return (
-    <div>
-      <h2>SVG Animator</h2>
-      <form>
-        <label>
-          Attribute Name:
-          <input
-            type="text"
-            name="attributeName"
-            value={animation.attributeName}
-            onChange={handleAttributeChange}
-          />
-        </label>
-        <label>
-          From:
-          <input
-            type="text"
-            name="from"
-            value={animation.from}
-            onChange={handleAttributeChange}
-          />
-        </label>
-        <label>
-          To:
-          <input
-            type="text"
-            name="to"
-            value={animation.to}
-            onChange={handleAttributeChange}
-          />
-        </label>
-        <label>
-          Duration (ms):
-          <input
-            type="number"
-            name="dur"
-            value={animation.dur}
-            onChange={handleAttributeChange}
-          />
-        </label>
-        <label>
-          Repeat Count:
-          <input
-            type="number"
-            name="repeatCount"
-            value={animation.repeatCount}
-            onChange={handleAttributeChange}
-          />
-        </label>
-      </form>
-      <div>
-        <p>Click on an element in the SVG to add the animate element:</p>
-        <Canvas onElementClick={handleElementClick} />
-      </div>
-    </div>
-  );
-};
-
 const SVGEditor = () => {
   const [svgContent, setSvgContent] = useState(null);
+  const [svgRef, setSvgRef] = useState(null);
 
   const handleFileUpload = (file) => {
     const reader = new FileReader();
@@ -155,11 +68,8 @@ const SVGEditor = () => {
     <div>
       <h1>SVG Editor</h1>
       <UploadButton onFileUpload={handleFileUpload} />
-      {svgContent && <Canvas svgContent={svgContent} />}
-      {svgContent && <DownloadButton svgContent={svgContent} />}
-      {svgContent && (
-        <SVGAnimator onElementClick={() => console.log("Element clicked")} />
-      )}
+      {svgContent && <Canvas svgContent={svgContent} setSvgRef={setSvgRef} />}
+      {svgContent && <DownloadButton svgContent={svgContent} svgRef={svgRef} />}
     </div>
   );
 };
