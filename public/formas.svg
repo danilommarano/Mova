@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Círculo -->
+  <circle cx="50" cy="50" r="40" fill="red" />
+  
+  <!-- Quadrado -->
+  <rect x="110" y="30" width="60" height="60" fill="blue" />
+  
+  <!-- Triângulo -->
+  <polygon points="150,130 170,170 130,170" fill="green" />
+  
+  <!-- Estrela -->
+  <polygon points="100,180 105,160 90,150 110,150 95,160" fill="yellow" />
+</svg>
