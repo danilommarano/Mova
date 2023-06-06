@@ -12,9 +12,6 @@ const AnimateList = ({ svgElement }) => {
     setAnimateElements(animateElements);
   }, [svgElement]);
 
-  const handleRestartAnimation = (animateElement) => {
-    animateElement.beginElement();
-  };
 
   return (
     <div>
@@ -32,7 +29,6 @@ const AnimateList = ({ svgElement }) => {
                 <li>Atributo: to = {animateElement.getAttribute('to')}</li>
                 <li>Atributo: dur = {animateElement.getAttribute('dur')}</li>
               </ul>
-              <button onClick={() => handleRestartAnimation(animateElement)}>Reiniciar</button>
             </li>
           ))}
         </ul>
