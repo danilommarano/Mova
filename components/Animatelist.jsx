@@ -7,8 +7,10 @@ const AnimateList = ({ svgElement, loadedSVG }) => {
     if (!svgElement && !loadedSVG) return;
 
     const svgContent = loadedSVG ? loadedSVG : svgElement.outerHTML;
-    const parsedAnimations = findAllAnimations(svgContent);
-    setAnimateElements(parsedAnimations);
+    const parser = new DOMParser();
+    const svgDocument = parser.parseFromString(svgContent, 'image/svg+xml');
+    const animateElements = Array.from(svgDocument.getElementsByTagName('animate'));
+    setAnimateElements(animateElements);
   }, [svgElement, loadedSVG]);
 
   return (
