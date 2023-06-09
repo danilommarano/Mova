@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-const AnimateList = ({ svgElement }) => {
-  // Array of SVG elements
+const AnimateList = ({ svgElement, loadedSVG }) => {
   const [animateElements, setAnimateElements] = useState([]);
 
-  // Filter 
   useEffect(() => {
-    if (!svgElement) return;
+    if (!svgElement && !loadedSVG) return;
 
-    const animateElements = Array.from(svgElement.getElementsByTagName('animate'));
-    setAnimateElements(animateElements);
-  }, [svgElement]);
-
+    const svgContent = loadedSVG ? loadedSVG : svgElement.outerHTML;
+    const parsedAnimations = findAllAnimations(svgContent);
+    setAnimateElements(parsedAnimations);
+  }, [svgElement, loadedSVG]);
 
   return (
     <div>
