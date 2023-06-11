@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-const AnimateList = ({ svgElement, loadedSVG }) => {
+const AnimateList = ({ svgElement, loadedSVG, isSVGLoaded }) => {
   const [animateElements, setAnimateElements] = useState([]);
 
-  useEffect(() => {
-    if (!svgElement && !loadedSVG) return;
+  if (!svgElement && !loadedSVG) return;
 
-    const svgContent = loadedSVG ? loadedSVG : svgElement.outerHTML;
-    const parser = new DOMParser();
-    const svgDocument = parser.parseFromString(svgContent, 'image/svg+xml');
-    const animateElements = Array.from(svgDocument.getElementsByTagName('animate'));
-    setAnimateElements(animateElements);
-  }, [svgElement, loadedSVG]);
+  const svgContent = svgElement ? svgElement.outerHTML : loadedSVG;
+  const parser = new DOMParser();
+  const svgDocument = parser.parseFromString(svgContent, 'image/svg+xml');
+  setAnimateElements(Array.from(svgDocument.getElementsByTagName('animate')));
+
 
   return (
     <div>

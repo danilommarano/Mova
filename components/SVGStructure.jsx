@@ -3,15 +3,16 @@ import React, { useEffect, useState } from 'react';
 const SVGStructure = ({ svgElement, loadedSVG }) => {
   const [svgStructure, setSVGStructure] = useState(null);
 
-  useEffect(() => {
-    if (!svgElement && !loadedSVG) return;
+useEffect(() => {
+  if (!svgElement && !loadedSVG) return;
 
-    const svgContent = svgElement ? svgElement.outerHTML : loadedSVG;
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(svgContent, 'image/svg+xml');
-    const structure = getSVGStructure(doc.documentElement);
-    setSVGStructure(structure);
-  }, [svgElement, loadedSVG]);
+  const svgContent = svgElement ? svgElement.outerHTML : loadedSVG;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgContent, 'image/svg+xml');
+  const structure = getSVGStructure(doc.documentElement);
+  setSVGStructure(structure);
+}, [svgElement, loadedSVG]);
+
 
   const getSVGStructure = (element) => {
     const structure = {};

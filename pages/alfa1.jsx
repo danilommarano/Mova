@@ -8,6 +8,7 @@ const App = () => {
   const rootSVG = useRef(null);
   const [animateCounter, setAnimateCounter] = useState(0);
   const [loadedSVG, setLoadedSVG] = useState(null);
+  const [isSVGLoaded, setIsSVGLoaded] = useState(false);
 
   const handleSvgClick = (e) => {
     selectedSVGChild.current = e.target;
@@ -31,6 +32,7 @@ const App = () => {
     reader.onload = (event) => {
       const contents = event.target.result;
       setLoadedSVG(contents);
+      setIsSVGLoaded(true);
     };
 
     reader.readAsText(file);
