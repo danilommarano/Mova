@@ -38,28 +38,53 @@ const App = () => {
     reader.readAsText(file);
   };
 
-  return (
-    <div>
-      <svg ref={rootSVG} onClick={handleSvgClick} width="400" height="400">
-        {loadedSVG && (
-          <g dangerouslySetInnerHTML={{ __html: loadedSVG }} />
-        )}
-        {!loadedSVG && (
-          <>
-            <rect width="100" height="100" />
-            <rect width="100" height="100" x="150" y="20" fill="#123456" />
-          </>
-        )}
-      </svg>
+  const handleDownloadSVG = () => {
+    let svgContent;
+    let fileName;
+    if (isSVGLoaded) {
+      svgContent = loadedSVG;
+      fileName = 'loaded.svg';
+    } else {
+      svgContent = rootSVG.current.outerHTML;
+      fileName = 'root.svg';
+    }
 
-      <CreateAnimateForm
-        svgElementRef={selectedSVGChild}
-        onAnimateCreated={handleAnimateCreated}
-      />
-      <AnimateList svgElement={rootSVG.current} loadedSVG={loadedSVG} />
-      <button onClick={() => handleRestartAnimation()}>Teste</button>
-      <input type="file" accept=".svg" onChange={handleFileUpload} />
-      <SVGStructure svgElement={rootSVG.current} loadedSVG={loadedSVG} />
+    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className='flex '>
+      <div className='flex flex-col h-screen w-96'>
+        <CreateAnimateForm
+          svgElementRef={selectedSVGChild}
+          onAnimateCreated={handleAnimateCreated}
+        />
+        <SVGStructure key={animateCounter} svgElement={rootSVG.current} loadedSVG={loadedSVG} />
+      </div>
+      <div>
+        <button onClick={handleRestartAnimation}>Teste</button>
+        <input type="file" accept=".svg" onChange={handleFileUpload} />
+        <button onClick={handleDownloadSVG}>Baixar SVG</button>
+        <svg ref={rootSVG} onClick={handleSvgClick} xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+          {loadedSVG && <g dangerouslySetInnerHTML={{ __html: loadedSVG }} />}
+          {!loadedSVG && (
+            <>
+              <rect width="100" height="100" />
+              <rect width="100" height="100" x="150" y="20" fill="#123456" />
+            </>
+          )}
+        </svg>
+        <AnimateList animateCounter={animateCounter} svgElement={rootSVG.current} loadedSVG={loadedSVG} />
+      </div>
+
     </div>
   );
 };
