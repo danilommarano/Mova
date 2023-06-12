@@ -92,22 +92,24 @@ const App = () => {
                 style={{ display: 'none' }}
               />
               <button onClick={handleClick} className='flex gap-2 px-2 py-0.5 justify-center items-center bg-[#353535]'>
-                <FiUpload /> Abrir arquivo 
+                <FiUpload /> Abrir SVG 
               </button>
 
               <button onClick={handleDownloadSVG} className='flex px-2 py-0.5 gap-2 justify-center items-center bg-[#353535]'>
-                <FiDownload /> Baixar arquivo
+                <FiDownload /> Baixar SVG
               </button>
             </div>
           </div>
           <div className='flex h-full w-full justify-center items-center bg-black'>
             <div className='bg-white w-fit'>
-              <svg ref={rootSVG} onClick={handleSvgClick} xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+              <svg ref={rootSVG} onClick={handleSvgClick} xmlns="http://www.w3.org/2000/svg" width="600" height="400">
                 {loadedSVG && <g dangerouslySetInnerHTML={{ __html: loadedSVG }} />}
                 {!loadedSVG && (
                   <>
-                    <rect width="100" height="100" />
-                    <rect width="100" height="100" x="150" y="20" fill="#123456" />
+                    <circle cx="50" cy="50" r="50" fill="#EC4444"/>
+                    <path d="M200 0L211.226 34.5491H247.553L218.164 55.9017L229.389 90.4509L200 69.0983L170.611 90.4509L181.836 55.9017L152.447 34.5491H188.774L200 0Z" fill="#24B121"/>
+                    <rect y="150" width="100" height="100" fill="#F5B73D"/>
+                    <path d="M200 150L243.301 225H156.699L200 150Z" fill="#2871DE"/>
                   </>
                 )}
               </svg>

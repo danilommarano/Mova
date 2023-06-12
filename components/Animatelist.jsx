@@ -22,9 +22,9 @@ const AnimateList = ({ svgElement, loadedSVG, animateCounter }) => {
   };
 
   return (
-    <div className='p-4 h-fit max-h-96 min-h-20 w-full bg-[#353535] text-[#D9D9D9]'>
+    <div className='p-4 h-fit max-h-96 min-h-20 w-full bg-[#353535] text-[#D9D9D9] overflow-auto'>
       {animateElements.length === 0 ? (
-        <p>Nenhum elemento &lt;animate&gt; encontrado.</p>
+        <p>Não há animações</p>
       ) : (
         <ul className='flex flex-col gap-4'>
           {animateElements.map((animateElement, index) => {

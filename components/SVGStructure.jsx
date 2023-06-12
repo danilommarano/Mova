@@ -47,12 +47,8 @@ const renderSVGStructure = (structure) => {
 };
 
   return (
-    <div className='flex flex-col h-full bg-[#2D2D2E] text-[#DBDBDB]'>
-      {svgStructure ? (
-        renderSVGStructure(svgStructure)
-      ) : (
-        <p>Nenhum documento SVG encontrado.</p>
-      )}
+    <div className='flex flex-col h-full bg-[#2D2D2E] text-[#DBDBDB] overflow-auto'>
+      {svgStructure && renderSVGStructure(svgStructure)}
     </div>
   );
 };
