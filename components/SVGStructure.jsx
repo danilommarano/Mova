@@ -29,17 +29,22 @@ const SVGStructure = ({ svgElement, loadedSVG }) => {
     return structure;
   };
 
-  const renderSVGStructure = (structure) => {
-    const className = 'm-[' + structure.depth * 20 + 'px]'
-    return (
-      <>
-        <div className={className}>
-          {structure.tagName} (Depth: {structure.depth})
-        </div>
-        {structure.children.map((child) => renderSVGStructure(child))}
-      </>
-    );
+const renderSVGStructure = (structure) => {
+  const paddingLeft = (structure.depth * 20) + 10;
+
+  const divStyle = {
+    paddingLeft: `${paddingLeft}px`,
   };
+
+  return (
+    <>
+      <div style={divStyle} className='py-3 hover:bg-[#5F5F5F] border-y border-[#5F5F5F]'>
+        {structure.tagName}
+      </div>
+      {structure.children.map((child) => renderSVGStructure(child))}
+    </>
+  );
+};
 
   return (
     <div className='flex flex-col h-full bg-[#2D2D2E] text-[#DBDBDB]'>

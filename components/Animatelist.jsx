@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import LineWithBalls from './LineWithBalls';
 
 const AnimateList = ({ svgElement, loadedSVG, animateCounter }) => {
   const [animateElements, setAnimateElements] = useState([]);
@@ -13,24 +14,31 @@ const AnimateList = ({ svgElement, loadedSVG, animateCounter }) => {
     setAnimateElements(animElements);
   }, [svgElement, loadedSVG, animateCounter]);
 
+  const calculateCirclePosition = (begin, dur) => {
+    const maxValue = 10;
+    const startPos = begin * maxValue;
+    const endPos = (begin + dur) * maxValue;
+    return [startPos, endPos];
+  };
+
   return (
-    <div>
-      <h3>Lista de elementos &lt;animate&gt;</h3>
+    <div className='p-4 h-fit max-h-96 min-h-20 w-full bg-[#353535] text-[#D9D9D9]'>
       {animateElements.length === 0 ? (
         <p>Nenhum elemento &lt;animate&gt; encontrado.</p>
       ) : (
-        <ul>
-          {animateElements.map((animateElement, index) => (
-            <li key={index}>
-              Elemento #{index + 1}
-              <ul>
-                <li>Atributo: attributeName = {animateElement.getAttribute('attributeName')}</li>
-                <li>Atributo: from = {animateElement.getAttribute('from')}</li>
-                <li>Atributo: to = {animateElement.getAttribute('to')}</li>
-                <li>Atributo: dur = {animateElement.getAttribute('dur')}</li>
-              </ul>
-            </li>
-          ))}
+        <ul className='flex flex-col gap-4'>
+          {animateElements.map((animateElement, index) => {
+            const begin = animateElement.getAttribute('begin') || 0;
+            const dur = animateElement.getAttribute('dur');
+            const [startPos, endPos] = calculateCirclePosition(begin, dur);
+
+            return (
+              <li key={index} className='flex gap-4 items-center'>
+                <p className='whitespace-nowrap'>Animação #{index + 1}</p>
+                <LineWithBalls ball1Position={startPos} ball2Position={endPos} />
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

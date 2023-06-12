@@ -43,7 +43,7 @@ que são usados em vários elementos SVG que podem referir recursos
 Os atributos a seguir são os atributos do atributo de animação, que identificam o atributo ou propriedade de destino para o elemento de destino especificado cujo valor muda ao longo do tempo.
 - attributeType - 'CSS', 'XML', 'auto'
     - Description: Specifies the namespace in which the target attribute and its associated values are defined.
-- attributeName - "<attributeName>"
+- attributeName - 
     - Descrição: Especifica o nome do atributo de destino.Um prefixo XMLNS pode ser usado para indicar o espaço de nome XML para o atributo
 
 ### animation timing

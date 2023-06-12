@@ -1,9 +1,16 @@
 import React, { useRef, useState } from 'react';
 
 const CreateAnimateForm = ({ svgElementRef, onAnimateCreated }) => {
+  const [idValue, setIdValue] = useState('');
+  const [attributeTypeValue, setAttributeTypeValue] = useState('');
+  const [attributeNameValue, setAttributeNameValue] = useState('');
+  const [beginValue, setBeginValue] = useState('');
+  const [durValue, setDurValue] = useState('');
+  const [valuesValue, setValuesValue] = useState('');
   const [fromValue, setFromValue] = useState('');
   const [toValue, setToValue] = useState('');
-  const [duration, setDuration] = useState('');
+  const [byValue, setByValue] = useState('');
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,45 +24,100 @@ const CreateAnimateForm = ({ svgElementRef, onAnimateCreated }) => {
       'http://www.w3.org/2000/svg',
       'animate'
     );
-    animateElement.setAttribute('attributeName', 'rx');
-    animateElement.setAttribute('values', fromValue);
-    animateElement.setAttribute('dur', duration);
+
+    if (idValue) {
+      animateElement.setAttribute('id', idValue);
+    }
+    if (attributeTypeValue) {
+      animateElement.setAttribute('attributeType', attributeTypeValue);
+    }
+    if (attributeNameValue) {
+      animateElement.setAttribute('attributeName', attributeNameValue);
+    }
+    if (beginValue) {
+      animateElement.setAttribute('begin', beginValue);
+    }
+    if (durValue) {
+      animateElement.setAttribute('dur', durValue);
+    }
+    if (valuesValue) {
+      animateElement.setAttribute('values', valuesValue);
+    }
+    if (fromValue) {
+      animateElement.setAttribute('from', fromValue);
+    }
+    if (toValue) {
+      animateElement.setAttribute('to', toValue);
+    }
+    if (byValue) {
+      animateElement.setAttribute('by', byValue);
+    }
 
     svgElementRef.current.appendChild(animateElement);
     onAnimateCreated();
   };
 
+  const divClassName = "";
+  const labelClassName = "whitespace-nowrap";
+  const inputClassName = "w-full bg-[#5F5F5F]";
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Valor inicial:
-        <input
-          type="text"
-          value={fromValue}
-          onChange={(e) => setFromValue(e.target.value)}
-        />
-      </label>
+    <div className='flex flex-col bg-[#353535] p-2 text-sm'>
+      <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="id">ID:</label>
+          <input type="text" id="id" value={idValue} onChange={(e) => setIdValue(e.target.value)} className={inputClassName} />
+        </div>
 
-      <label>
-        Valor final:
-        <input
-          type="text"
-          value={toValue}
-          onChange={(e) => setToValue(e.target.value)}
-        />
-      </label>
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="atributeType">Tipo de Atributo:</label>
+          <select id="atributeType" value={attributeTypeValue} onChange={(e) => setAttributeTypeValue(e.target.value)} className={inputClassName}>
+            <option value="">Selecione...</option>
+            <option value="CSS">CSS</option>
+            <option value="XML">XML</option>
+            <option value="auto">Auto</option>
+          </select>
+        </div>
 
-      <label>
-        Duração:
-        <input
-          type="text"
-          value={duration}
-          onChange={(e) => setDuration(e.target.value)}
-        />
-      </label>
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="atributeName">Nome do Atributo:</label>
+          <input type="text" id="atributeName" value={attributeNameValue} onChange={(e) => setAttributeNameValue(e.target.value)} className={inputClassName} />
+        </div>
 
-      <button type="submit">Criar Animate</button>
-    </form>
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="begin">Início:</label>
+          <input type="text" id="begin" value={beginValue} onChange={(e) => setBeginValue(e.target.value)} className={inputClassName} />
+        </div>
+
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="dur">Duração:</label>
+          <input type="text" id="dur" value={durValue} onChange={(e) => setDurValue(e.target.value)} className={inputClassName} />
+        </div>
+
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="values">Valores:</label>
+          <input type="text" id="values" value={valuesValue} onChange={(e) => setValuesValue(e.target.value)} className={inputClassName} />
+        </div>
+
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="from">De:</label>
+          <input type="text" id="from" value={fromValue} onChange={(e) => setFromValue(e.target.value)} className={inputClassName} />
+        </div>
+
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="to">Para:</label>
+          <input type="text" id="to" value={toValue} onChange={(e) => setToValue(e.target.value)} className={inputClassName} />
+        </div>
+
+        <div className={divClassName}>
+          <label className={labelClassName} htmlFor="by">Por:</label>
+          <input type="text" id="by" value={byValue} onChange={(e) => setByValue(e.target.value)} className={inputClassName} />
+        </div>
+
+
+        <button className='bg-[#5F5F5F] rounded w-full' type="submit">Criar Animação</button>
+      </form>
+    </div>
   );
 };
 
